@@ -9,6 +9,7 @@ func StartApi() {
 	r := gin.Default()
 
 	db, err := gorm.Open("sqlite3", "test.db")
+	_ = db
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -18,5 +19,5 @@ func StartApi() {
 			"message": "pong",
 		})
 	})
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run(":30100") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
