@@ -12,7 +12,7 @@ func StartApi() {
 	db, err := gorm.Open("sqlite3", "/var/transtracker/objects.db")
 	_ = db
 	if err != nil {
-		panic("failed to connect database")
+		panic("failed to connect database: " + err.Error())
 	}
 
 	r.GET("/ping", func(c *gin.Context) {
