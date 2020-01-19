@@ -8,7 +8,8 @@ import (
 func StartApi() {
 	r := gin.Default()
 
-	db, err := gorm.Open("sqlite3", "test.db")
+	println("Starting TransTracker API")
+	db, err := gorm.Open("sqlite3", "/var/transtracker/objects.db")
 	_ = db
 	if err != nil {
 		panic("failed to connect database")
