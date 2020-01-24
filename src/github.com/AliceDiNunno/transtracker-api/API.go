@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"os"
 )
 
 func UnableToConnectToDatabaseMiddleware() gin.HandlerFunc {
@@ -21,12 +22,18 @@ func UnableToConnectToDatabaseMiddleware() gin.HandlerFunc {
 func StartApi() {
 	r := gin.Default()
 
-	db, err := gorm.Open("sqlite3", "/var/transtracker/objects.db")
+	dbPath := os.Getenv("DATABASE_PATH")
+	if (len(dbPath) == 0) {
+		dbPath = "."
+	}
+
+	db, err := gorm.Open("sqlite3", dbPath + "/objects.db")
 	_ = db
 	if err != nil {
 		fmt.Println("Unable to connect to database because of: " + err.Error())
 		r.Use(UnableToConnectToDatabaseMiddleware())
-	} else { return }
+		return
+	}
 
 	println("Starting TransTracker API")
 
